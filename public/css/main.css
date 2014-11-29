@@ -2521,3 +2521,10 @@ h2.title {
 }
 
 
+.book .title {
+    margin: 0 0 10px 0;
+}
+
+.book p {
+    margin: 0 0 5px 0;
+}

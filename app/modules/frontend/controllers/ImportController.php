@@ -4,15 +4,18 @@ namespace Modules\Frontend\Controllers;
 
 use Prodio\Http\Client as HttpClient;
 
+
 class ImportController extends ControllerBase {
 
     const MAX_RESULTS = 40;
 
-    public function indexAction()
+    public function initialize()
     {
         $this->view->disable();
-
-
+    }
+    
+    public function indexAction()
+    {
         for ($i = 0; $i <= 1000; $i+=40)
         {
             $client = new HttpClient();
@@ -30,7 +33,7 @@ class ImportController extends ControllerBase {
 
             foreach ($results->items as $item)
             {
-                $booksModel = new \Models\Books();
+                $booksModel = new BooksModel();
                 $booksModel->hydrate($item)->save();
             }
         }
@@ -39,5 +42,8 @@ class ImportController extends ControllerBase {
         
     }
     
-
+    public function statusAction()
+    {
+        echo \Gbooks\Models\Books::count().' books in the database';
+    }
 }

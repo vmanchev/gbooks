@@ -19,7 +19,7 @@ class IndexController extends ControllerBase
 
         $title = $this->request->getPost('search');
         $HttpClient->setMethod('POST')
-                ->setUrl('https://www.googleapis.com/books/v1/volumes')
+                ->setUrl($this->gbooksapi)
                 ->setParams(array(
                     'q' => $title,
         ));

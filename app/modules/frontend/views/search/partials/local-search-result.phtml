@@ -1,0 +1,14 @@
+
+<tr class="book">
+    <td>
+        <img src="<?php echo $result->volumeInfo['imageLinks']['smallThumbnail']; ?>" />
+        <p><a href="<?php echo $result->volumeInfo['previewLink']; ?>">read online</a></p>
+    </td>
+    <td>
+        <h2 class="title"><?php echo stripslashes($result->volumeInfo['title']); ?></h2>
+        <p><strong>Authors:</strong> <?php echo stripslashes(implode(', ', $result->volumeInfo['authors'])); ?></p>
+        <p><strong>Publisher:</strong> <?php echo stripslashes($result->volumeInfo['publisher']); ?>, Date: <?php echo date('d/m/Y', strtotime($result->volumeInfo['publishedDate'])); ?></p>
+        <p><?php echo stripslashes($result->volumeInfo['description']); ?></p>
+    </td>
+</tr>
+

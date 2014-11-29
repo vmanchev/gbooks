@@ -5,7 +5,7 @@ $loader = new \Phalcon\Loader();
 /**
  * We're a registering a set of directories taken from the configuration file
  */
-$namespaces['Models'] = realpath(__DIR__ . '/../models/');
+$namespaces['Gbooks\Models'] = realpath(__DIR__ . '/../models/');
 
 $string = explode("/", $_SERVER['REQUEST_URI']);
 if (in_array('admin', $string)) {

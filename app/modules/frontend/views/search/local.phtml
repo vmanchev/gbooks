@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-12">
+        <?php echo $this->tag->form(array('local-search', 'method' => 'get', 'class' => 'form-horizontal', 'role' => 'form')) ?>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label"><?php echo $form->get('title')->getLabel(); ?></label>
+            <div class="col-sm-4">
+                <?php echo $form->render("title", array('class' => 'form-control')); ?>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="author" class="col-sm-2 control-label"><?php echo $form->get('author')->getLabel(); ?></label>
+            <div class="col-sm-4">
+                <?php echo $form->render("author", array('class' => 'form-control')); ?>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="keywords" class="col-sm-2 control-label"><?php echo $form->get('keywords')->getLabel(); ?></label>
+            <div class="col-sm-4">
+                <?php echo $form->render("keywords", array('class' => 'form-control')); ?>
+                <span class="help-block">(comma-separated list of keywords)</span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-2 control-label">&nbsp;</label>
+            <div class="col-sm-4">
+                <?php echo $this->tag->submitButton(array('Search', 'name' =>'sq', 'class' => 'btn btn-primary')) ?>
+            </div>
+        </div>
+
+        </form>           
+
+    </div>
+</div>
+
+
+<?php 
+
+if(count($results) > 0){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-2">
+        <h1><?php echo count($results) ?> results found:</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php 
+            foreach($results as $result){
+                echo $this->partial('search/partials/local-search-result', $result);
+            } 
+            ?>
+            </tbody>
+        </table>    
+    </div>
+</div>    
+<?php } ?>

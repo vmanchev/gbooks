@@ -18,5 +18,14 @@ $frontend->add('/search', array(
     'action' => 'search'
 ))->via(array("POST", "GET"))->setName('index_search');
 
+$frontend->add('/status', array(
+    'controller' => 'import',
+    'action' => 'status'
+))->via(array("GET"))->setName('import_status');
+
+$frontend->add('/local-search', array(
+    'controller' => 'search',
+    'action' => 'local'
+))->via(array("GET"))->setName('search_local');
 
 $router->mount($frontend);
