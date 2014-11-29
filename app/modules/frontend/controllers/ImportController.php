@@ -3,8 +3,11 @@
 namespace Modules\Frontend\Controllers;
 
 use Prodio\Http\Client as HttpClient;
+use Gbooks\Models\Books as BooksModel;
 
-
+/**
+ * Imports books from Google Books API into a local database
+ */
 class ImportController extends ControllerBase {
 
     const MAX_RESULTS = 40;
@@ -14,6 +17,9 @@ class ImportController extends ControllerBase {
         $this->view->disable();
     }
     
+    /**
+     * Imports up to 1000 books from O'reilly
+     */
     public function indexAction()
     {
         for ($i = 0; $i <= 1000; $i+=40)
@@ -38,12 +44,15 @@ class ImportController extends ControllerBase {
             }
         }
 
-        echo "ok";
+        $this->response->redirect(array('for'=>'import_status'));
         
     }
     
+    /**
+     * Display the number of books in the database
+     */
     public function statusAction()
     {
-        echo \Gbooks\Models\Books::count().' books in the database';
+        echo BooksModel::count().' books in the database';
     }
 }
