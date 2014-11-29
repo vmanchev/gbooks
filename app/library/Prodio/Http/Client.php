@@ -93,8 +93,13 @@ class Client
      */
     public function send()
     {
-        $result = curl_exec($this->ch);
+        if($this->method == 'GET'){
+            $url = $this->url . '?' . $this->__buildQuery();
+            $this->setUrl($url);
+        }
         
+        $result = curl_exec($this->ch);
+
         if ($result === false) {
             throw new CurlException($this->ch);
         }
@@ -132,7 +137,9 @@ class Client
     {
         $this->params = $params;
 
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->__buildQuery());
+        if($this->method == 'POST'){
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->__buildQuery());
+        }
 
         return $this;
     }
@@ -164,13 +171,13 @@ class Client
 
         switch ($this->method) {
             case 'POST':
-                curl_setopt($this->ch, CURLOPT_POST, 1);
+                curl_setopt($this->ch, CURLOPT_POST, true);
                 break;
             case 'GET':
-                curl_setopt($this->ch, CURLOPT_HTTPGET, 1);
+                curl_setopt($this->ch, CURLOPT_HTTPGET, true);
                 break;
             default:
-                curl_setopt($this->ch, CURLOPT_HTTPGET, 1);
+                curl_setopt($this->ch, CURLOPT_HTTPGET, true);
                 break;
         }
 
@@ -221,7 +228,8 @@ class Client
         curl_setopt($this->ch, CURLOPT_ENCODING, '');
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, array("Accept: gzip,deflate"));
         curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($this->ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($this->ch, CURLOPT_TIMEOUT, 30);
+
         return $this;
     }
 

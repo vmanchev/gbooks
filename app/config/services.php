@@ -2,14 +2,10 @@
 
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Mvc\Collection\Manager as CollectionManager;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Model\Manager;
-use Json\Responce as JsonResponce;
-use Broadway\Engine\Channels;
-use Broadway\Engine\Suppliers;
-use Broadway\Engine\ArrivalAirports;
 use Phalcon\Mvc\View;
 
 /**
@@ -39,24 +35,21 @@ $di->set('view', function() {
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
-$di->set('db', function () use ($config) {
-    $dbConfig = array(
-        "host" => $config->database->host,
-        "username" => $config->database->username,
-        "password" => $config->database->password,
-        "dbname" => $config->database->name,
-        "charset" => 'utf8'
-    );
 
-    if (isset($config->database->unix_socket)) {
-        $dbConfig['unix_socket'] = $config->database->unix_socket;
-    }
+$di->set('config', function() use ($config){
+    return $config;
+}, true);
 
-    $dbAdapter = new DbAdapter($dbConfig);
-    //$dbAdapter->execute('SET NAMES utf8');
+// Simple database connection to localhost
+$di->set('mongo', function() use ($config) {
+    $mongo = new Mongo();
+    return $mongo->selectDb($config->database->name);
+}, true);
 
-    return $dbAdapter;
-});
+//Collection manager
+$di->set('collectionManager', function() {
+	return new CollectionManager();
+}, true);
 
  /**
  * Start the session the first time some component request the session service
@@ -166,38 +159,8 @@ $di->set('flash', function() {
     ));
 });
 
-/**
- * Register recordset finder
- */
-$di->set('recordset', function() {
-    return new Recordset();
-});
-
-$di->set('settings', function() {
-    return new Settings();
-});
-
-$di->set('jsonResponce', function() {
-    return new JsonResponce();
-});
-
-$di->set('channels', function() {
-    return new Channels();
-});
-
-$di->set('suppliers', function() {
-    return new Suppliers();
-});
-
-$di->set('arrivalAirports', function() {
-    return new ArrivalAirports();
-});
-
-/**
- * Utils
- */
-$di->set('utils', function() {
-    return new Utils();
+$di->set('gbooksapi', function() use ($config) {
+    return $config->gbooksapi;
 });
 
 // Module services
