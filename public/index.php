@@ -2,7 +2,7 @@
 
 //ini_set('max_execution_time', 30000);
 ini_set('display_errors', 'On');
-error_reporting(E_ALL);
+error_reporting(E_ERROR);
 
 try {
     /**
